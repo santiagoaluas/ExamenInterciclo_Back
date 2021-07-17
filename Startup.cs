@@ -36,6 +36,16 @@ namespace ExamenInterciclo_Back
             services.AddEntityFrameworkNpgsql();
             string PostgrestConnection = Configuration.GetConnectionString("ConnectionStrings");
             services.AddDbContextPool<Datacontext>(options => options.UseNpgsql(PostgrestConnection));
+
+            services.AddCors(opciones =>
+            {
+                opciones.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +56,7 @@ namespace ExamenInterciclo_Back
                 app.UseDeveloperExceptionPage();
                 
             }
-
+            app.UseCors();
             app.UseRouting();
 
             app.UseAuthorization();
