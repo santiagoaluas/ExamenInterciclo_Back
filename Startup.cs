@@ -41,7 +41,7 @@ namespace ExamenInterciclo_Back
             {
                 opciones.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("")
+                    builder.WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
