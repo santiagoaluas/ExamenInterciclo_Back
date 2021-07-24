@@ -44,6 +44,47 @@ namespace ExamenInterciclo_Back.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Grabar_Usuario(UsuarioDto user)
+        {
+            Usuario usergrabar = new();
+            usergrabar.id = Guid.NewGuid().ToString();
+            usergrabar.username = user.username;
+            usergrabar.nombre = user.username;
+            usergrabar.apellido = user.apellido;
+            usergrabar.password = user.password;
+            usergrabar.photo = user.foto;
+            usergrabar.fecha_nacimiento = user.fechNacimiento;
+            usergrabar.fecha_registro = DateTime.UtcNow;
+            _datacontext.Usuario.Add(usergrabar);
+            await _datacontext.SaveChangesAsync();
+            Respuesta resp = new();
+            resp.exito = true;
+            resp.mensaje = $"!Usuarios {usergrabar.username} se registro con exito!";
+            return Ok(resp);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Eliminar_Usuario(String id)
+        {
+            Respuesta resp = new();
+            Usuario user = await _datacontext.Usuario.FirstOrDefaultAsync(x => x.id == id);
+            if (user != null)
+            {
+                _datacontext.Usuario.Remove(user);
+                await _datacontext.SaveChangesAsync();
+                resp.exito = true;
+                resp.mensaje = $"!El usuario {user.username} se elimino correctamente!";
+                return Ok(resp);
+            }
+            else
+            {
+                resp.exito = false;
+                resp.mensaje = $"!El usuario {user.username} no existe!";
+                return Ok(resp);
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult> Obtener_Todos_Usuarios(string username)
         {
