@@ -21,6 +21,7 @@ namespace ExamenInterciclo_Back.Controllers
         public UsuariosController(Datacontext datacontext)
         {
             _datacontext = datacontext;
+
           
         }
 
