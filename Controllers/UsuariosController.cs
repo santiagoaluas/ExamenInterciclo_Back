@@ -1,6 +1,7 @@
 ﻿using ExamenInterciclo_Back.Dtos;
 using ExamenInterciclo_Back.Entities;
 using ExamenInterciclo_Back.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace ExamenInterciclo_Back.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class UsuariosController : ControllerBase
     {
         public readonly Datacontext _datacontext;
@@ -45,6 +47,7 @@ namespace ExamenInterciclo_Back.Controllers
         }
 
         [HttpPost]
+
         public async Task<ActionResult> Grabar_Usuario(UsuarioDto user)
         {
             Usuario usergrabar = new();
