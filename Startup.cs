@@ -41,7 +41,7 @@ namespace ExamenInterciclo_Back
             {
                 opciones.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:4202", "https://santiagoaluas.github.io")
+                    builder.WithOrigins("http://localhost:4202", "https://santiagoaluas.github.io", "http://localhost", "http://localhost", "http://localhost:8080")
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
