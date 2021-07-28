@@ -13,5 +13,6 @@ namespace ExamenInterciclo_Back.Helpers
         {
         }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Productos> Productos { get; set; }
     }
 }
