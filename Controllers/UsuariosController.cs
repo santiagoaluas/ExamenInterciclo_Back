@@ -1,6 +1,7 @@
 ﻿using ExamenInterciclo_Back.Dtos;
 using ExamenInterciclo_Back.Entities;
 using ExamenInterciclo_Back.Helpers;
+using ExamenInterciclo_Back.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,12 @@ namespace ExamenInterciclo_Back.Controllers
     public class UsuariosController : ControllerBase
     {
         public readonly Datacontext _datacontext;
-        public UsuariosController(Datacontext datacontext)
+        public readonly IEmail _email;
+        public UsuariosController(Datacontext datacontext,
+                                   IEmail email)
         {
             _datacontext = datacontext;
+            _email = email;
 
           
         }
@@ -56,15 +60,18 @@ namespace ExamenInterciclo_Back.Controllers
             usergrabar.username = user.username;
             usergrabar.nombre = user.username;
             usergrabar.apellido = user.apellido;
+            usergrabar.email = user.email;
             usergrabar.password = user.password;
             usergrabar.photo = user.foto;
             usergrabar.fecha_nacimiento = user.fechNacimiento;
+            usergrabar.habilitado = 0;
             usergrabar.fecha_registro = DateTime.UtcNow;
             _datacontext.Usuario.Add(usergrabar);
             await _datacontext.SaveChangesAsync();
             Respuesta resp = new();
             resp.exito = true;
             resp.mensaje = $"!Usuarios {usergrabar.username} se registro con exito!";
+            _email.enviarEmailAuth(usergrabar.email, $"https://protected-woodland-45407.herokuapp.com/Usuarios/VerificarUser/{usergrabar.id}");
             return Ok(resp);
         }
 
@@ -89,6 +96,23 @@ namespace ExamenInterciclo_Back.Controllers
             }
         }
 
+        [HttpGet("VerificarUser/{id}")]
+        public async Task<ActionResult> VerificarUsuario(string id)
+        {
+            Usuario usu = await _datacontext.Usuario.FirstOrDefaultAsync(x => x.id == id);
+            if (usu != null)
+            {
+                usu.habilitado = 1;
+                _datacontext.Usuario.Update(usu);
+                await _datacontext.SaveChangesAsync();
+                return Ok("Se Habilito su usuario");
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult> Obtener_Todos_Usuarios(string username)
         {
@@ -110,6 +134,30 @@ namespace ExamenInterciclo_Back.Controllers
             }
 
         }
+
+
+        [HttpGet("Login/{username}/{password}")]
+        public async Task<ActionResult> Login(string username, string password)
+        {
+            Respuesta resp = new();
+            Usuario Usuarios = await _datacontext.Usuario.FirstOrDefaultAsync(x => (x.username == username || x.email == username)  && x.password == password);
+            if (Usuarios != null)
+            {
+                resp.exito = true;
+                resp.mensaje = "Se loggeo perfectamente";
+                resp.data = Usuarios;
+                return Ok(resp);
+            }
+            else
+            {
+                resp.exito = false;
+                resp.mensaje = "!No hay usuarios para mostrar!";
+                resp.data = null;
+                return BadRequest(resp);
+            }
+
+        }
+
 
     }
 }

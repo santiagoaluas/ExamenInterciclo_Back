@@ -1,4 +1,6 @@
 using ExamenInterciclo_Back.Helpers;
+using ExamenInterciclo_Back.Interfaces;
+using ExamenInterciclo_Back.Servicios;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +38,7 @@ namespace ExamenInterciclo_Back
             services.AddEntityFrameworkNpgsql();
             string PostgrestConnection = Configuration.GetConnectionString("ConnectionStrings");
             services.AddDbContextPool<Datacontext>(options => options.UseNpgsql(PostgrestConnection));
-
+            services.AddScoped<IEmail, EmailServicios>();
             services.AddCors(opciones =>
             {
                 opciones.AddDefaultPolicy(builder =>
