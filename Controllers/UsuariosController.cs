@@ -71,7 +71,7 @@ namespace ExamenInterciclo_Back.Controllers
             Respuesta resp = new();
             resp.exito = true;
             resp.mensaje = $"!Usuarios {usergrabar.username} se registro con exito!";
-            _email.enviarEmailAuth(usergrabar.email, $"https://protected-woodland-45407.herokuapp.com/Usuarios/VerificarUser/{usergrabar.id}");
+            _email.enviarEmailAuth( $"https://protected-woodland-45407.herokuapp.com/Usuarios/VerificarUser/{usergrabar.id}", usergrabar.email);
             return Ok(resp);
         }
 
@@ -136,7 +136,7 @@ namespace ExamenInterciclo_Back.Controllers
         }
 
 
-        [HttpGet("Login/{username}/{password}")]
+        [HttpGet("LoginApp/{username}/{password}")]
         public async Task<ActionResult> Login(string username, string password)
         {
             Respuesta resp = new();

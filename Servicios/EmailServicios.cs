@@ -23,8 +23,10 @@ namespace ExamenInterciclo_Back.Servicios
                 email.Body = new TextPart(TextFormat.Plain) { Text = $"Ingrese al siguiente link para verificar su correo: {url}"};
 
                 // send email
+
                 using var smtp = new SmtpClient();
-                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                smtp.Connect("smtp.gmail.com", 587, false);
                 smtp.Authenticate("santiagoalulema@gmail.com", "Alulema_0105784847");
                 smtp.Send(email);
                 smtp.Disconnect(true);
