@@ -26,7 +26,7 @@ namespace ExamenInterciclo_Back.Servicios
 
                 using var smtp = new SmtpClient();
                 smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                smtp.Connect("smtp.gmail.com", 587, false);
+                smtp.Connect("smtp.gmail.com", 587, true);
                 smtp.Authenticate("santiagoalulema@gmail.com", "Alulema_0105784847");
                 smtp.Send(email);
                 smtp.Disconnect(true);
