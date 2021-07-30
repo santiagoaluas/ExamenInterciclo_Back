@@ -65,6 +65,7 @@ namespace ExamenInterciclo_Back.Controllers
             usergrabar.photo = user.foto;
             usergrabar.fecha_nacimiento = user.fechNacimiento;
             usergrabar.habilitado = 0;
+            usergrabar.role = "user";
             usergrabar.fecha_registro = DateTime.UtcNow;
             _datacontext.Usuario.Add(usergrabar);
             await _datacontext.SaveChangesAsync();

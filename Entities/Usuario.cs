@@ -16,6 +16,7 @@ namespace ExamenInterciclo_Back.Entities
         public string email { get; set; }
         public string password { get; set; }
         public string photo { get; set; }
+        public string role { get; set; }
         public int habilitado { get; set; }
         public DateTime fecha_nacimiento { get; set; }
         public DateTime fecha_registro { get; set; }
