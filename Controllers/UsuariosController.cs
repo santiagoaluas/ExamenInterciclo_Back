@@ -140,7 +140,7 @@ namespace ExamenInterciclo_Back.Controllers
         public async Task<ActionResult> Login(string username, string password)
         {
             Respuesta resp = new();
-            Usuario Usuarios = await _datacontext.Usuario.FirstOrDefaultAsync(x => (x.username == username || x.email == username)  && x.password == password);
+            Usuario Usuarios = await _datacontext.Usuario.FirstOrDefaultAsync(x => (x.username == username || x.email == username)  && x.password == password && x.habilitado == 1);
             if (Usuarios != null)
             {
                 resp.exito = true;
