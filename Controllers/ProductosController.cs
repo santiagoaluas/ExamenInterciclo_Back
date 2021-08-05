@@ -42,5 +42,19 @@ namespace ExamenInterciclo_Back.Controllers
                 return BadRequest(resp);
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Producto_Post(Productos producto)
+        {
+            Productos NewProduct = new();
+            Respuesta resp = new();
+            producto.id = Guid.NewGuid().ToString();
+            _datacontext.Productos.Add(producto);
+            await _datacontext.SaveChangesAsync();
+            resp.exito = true;
+            resp.mensaje = "Se inserto con existo!";
+            return Ok(resp);
+
+        }
     }
 }

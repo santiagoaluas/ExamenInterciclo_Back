@@ -79,8 +79,11 @@ namespace ExamenInterciclo_Back.Controllers
         [HttpGet("RealizarPago/{email}/{msn}")]
         public ActionResult realizar_Pago(string email, string msn)
         {
+            Respuesta resp = new();
+            resp.exito = true;
+            resp.mensaje = "Correo enviado Correctamente";
             _email.enviarPagosEmail(email, msn);
-            return Ok("se realizo correctamente");
+            return Ok(resp);
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> Eliminar_Usuario(String id)
